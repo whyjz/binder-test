@@ -168,8 +168,8 @@
 
 FROM python:3.7-slim
 # install the notebook package
-RUN pip install --no-cache --upgrade pip && \
-    pip install --no-cache notebook
+RUN set -ex \
+ && sudo /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
 
 # create user with a home directory
 ARG NB_USER
