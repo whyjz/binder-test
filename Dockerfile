@@ -100,6 +100,8 @@ ENV LANG en_US.UTF-8
 # # install jupyter interface (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html)
 RUN /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
 
+RUN usermod -u 1050 ops
+
 # create user with a home directory
 ARG NB_USER
 ARG NB_UID
