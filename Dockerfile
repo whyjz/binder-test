@@ -1,17 +1,17 @@
 ######## [1] ########
 # Create ISCE RPM
 
-# Use hysds/dev:v4.0.0-rc.7
-FROM hysds/dev:v4.0.0-rc.7
+# # Use hysds/dev:v4.0.0-rc.7
+# FROM hysds/dev:v4.0.0-rc.7
 
-# Set an encoding to make things work smoothly.
-ENV LANG en_US.UTF-8
+# # Set an encoding to make things work smoothly.
+# ENV LANG en_US.UTF-8
 
-# Set ISCE repo
-ENV ISCE_ORG isce-framework
+# # Set ISCE repo
+# ENV ISCE_ORG isce-framework
 
-# set to root user
-USER root
+# # set to root user
+# USER root
 
 # # install tools for RPM generation
 # RUN set -ex \
