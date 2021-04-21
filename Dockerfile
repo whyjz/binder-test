@@ -87,23 +87,23 @@
 ######## [2] ########
 # Install ISCE from RPM and other packages
 
-# Use hysds/pge-base:v4.0.0
-# This comes with a user called "ops" with UID of 1000
-FROM hysds/pge-base:v4.0.0
+# # Use hysds/pge-base:v4.0.0
+# # This comes with a user called "ops" with UID of 1000
+# FROM hysds/pge-base:v4.0.0
 
-# Make sure we are using the ops user
-USER ops
+# # Make sure we are using the ops user
+# USER ops
 
-# Set an encoding to make things work smoothly.
-ENV LANG en_US.UTF-8
+# # Set an encoding to make things work smoothly.
+# ENV LANG en_US.UTF-8
 
-# install jupyter interface (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html)
-RUN set -ex \
- && sudo /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
+# # install jupyter interface (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html)
+# RUN set -ex \
+#  && sudo /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
 
-# Override home dir with /tmp to avoid write permission issues
-ENV HOME /tmp
-WORKDIR ${HOME}
+# # Override home dir with /tmp to avoid write permission issues
+# ENV HOME /tmp
+# WORKDIR ${HOME}
 
 # # copy the ISCE RPM to hysds/pge-base: v4.0.0
 # COPY --from=0 /tmp/isce-2.4.2-1.x86_64.rpm /tmp/isce-2.4.2-1.x86_64.rpm
@@ -156,11 +156,30 @@ WORKDIR ${HOME}
 #     --uid 1002 \
 #     jovyan
 
-# # Make sure the contents of our repo are in ${HOME}
-# # RUN mkdir ${HOME}
-COPY . ${HOME}
-# USER root
-RUN set -ex \
- && sudo chown -R 1000 ${HOME}
-# chown -R ${NB_UID} ${HOME}
-# # USER ${NB_USER}
+# # # Make sure the contents of our repo are in ${HOME}
+# # # RUN mkdir ${HOME}
+# COPY . ${HOME}
+# # USER root
+# RUN set -ex \
+#  && sudo chown -R 1000 ${HOME}
+# # chown -R ${NB_UID} ${HOME}
+# # # USER ${NB_USER}
+
+
+FROM python:3.7-slim
+# install the notebook package
+RUN pip install --no-cache --upgrade pip && \
+    pip install --no-cache notebook
+
+# create user with a home directory
+ARG NB_USER
+ARG NB_UID
+ENV USER ${NB_USER}
+ENV HOME /home/${NB_USER}
+
+RUN adduser --disabled-password \
+    --gecos "Default user" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+WORKDIR ${HOME}
+USER ${USER}
