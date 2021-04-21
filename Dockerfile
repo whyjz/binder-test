@@ -92,28 +92,34 @@
 FROM hysds/pge-base:v4.0.0
 
 # # Make sure we are using the ops user
-USER root
+# USER root
 
 # # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
 
 # # install jupyter interface (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html)
-RUN /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
+RUN sudo /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
 
-RUN usermod -u 1050 ops
+# USER root
+
+# RUN usermod --login jovyan ops
+
+# USER jovyan
+
+# ENV PATH="/home/ops/verdi/bin:/opt/conda/bin:/opt/conda/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
 
 # create user with a home directory
-ARG NB_USER
-ARG NB_UID
-ENV USER ${NB_USER}
-ENV HOME /home/${NB_USER}
+# ARG NB_USER
+# ARG NB_UID
+# ENV USER ${NB_USER}
+# ENV HOME /home/${NB_USER}
 
-RUN adduser \
-    --comment "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
-WORKDIR ${HOME}
-USER ${USER}
+# RUN adduser \
+#     --comment "Default user" \
+#     --uid ${NB_UID} \
+#     ${NB_USER}
+# WORKDIR ${HOME}
+# USER ${USER}
 
 # # Override home dir with /tmp to avoid write permission issues
 # ENV HOME /tmp
