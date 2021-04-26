@@ -97,16 +97,28 @@ FROM hysds/pge-base:v4.0.0
 # # Set an encoding to make things work smoothly.
 ENV LANG en_US.UTF-8
 
-# # install jupyter interface (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html)
+# install jupyter interface (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html)
 RUN sudo /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
 
-# USER root
+WORKDIR \tmp
+
+# RUN which jupyter \
+#   && echo $PATH
+
+USER root
+USER ops
 
 # RUN usermod --login jovyan ops
 
 # USER jovyan
 
-# ENV PATH="/home/ops/verdi/bin:/opt/conda/bin:/opt/conda/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+# # ENV PATH="/home/ops/verdi/bin:/opt/conda/bin:/opt/conda/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH"
+
+# ENV HOME /tmp
+# WORKDIR ${HOME}
+
+# RUN cat /etc/passwd \
+#   && echo $PATH
 
 # create user with a home directory
 # ARG NB_USER
@@ -188,18 +200,25 @@ RUN sudo /opt/conda/bin/pip install --no-cache-dir notebook jupyterlab
 
 # FROM python:3.7-slim
 # # install the notebook package
-# RUN pip install --no-cache --upgrade pip && \
-#     pip install --no-cache notebook
+# # RUN pip install --no-cache --upgrade pip && \
+# #     pip install --no-cache notebook
 
 # # create user with a home directory
-# ARG NB_USER
-# ARG NB_UID
-# ENV USER ${NB_USER}
-# ENV HOME /home/${NB_USER}
+
+# RUN pip install --no-cache-dir notebook jupyterlab
+
+# # ARG NB_USER
+# # ARG NB_UID
+# # ENV USER ${NB_USER}
+# # ENV HOME /home/${NB_USER}
 
 # RUN adduser --disabled-password \
 #     --gecos "Default user" \
-#     --uid ${NB_UID} \
-#     ${NB_USER}
-# WORKDIR ${HOME}
-# USER ${USER}
+#     --uid 1006 \
+#     jovyan
+# # WORKDIR ${HOME}
+# # USER ${USER}
+
+# WORKDIR \tmp
+# USER jovyan
+

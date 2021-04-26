@@ -1,0 +1,7 @@
+name: eztrack
+
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - isce2
