@@ -5,3 +5,18 @@ channels:
   - defaults
 dependencies:
   - isce2
+  - pip
+  - pip:
+    - carst
+    - scikit-image
+    - scikit-learn
+    - boto3
+    - xarray
+    - ipyleaflet
+    - fsspec
+    - xlrd
+    - openpyxl
+    - netcdf4
+    - requests
+    - aiohttp
+    - h5netcdf
